@@ -1,3 +1,23 @@
+# перенести используемые зависимости в файл
+pip freeze > requirements.txt
+# установить зависимоисти
+pip install -r requirements.txt
+
+
+Чтобы указать количество перезапусков для каждого из упавших тестов, 
+нужно добавить в командную строку параметр:
+"--reruns n", где n - это количество перезапусков.
+
+--tb=line, чтобы сократить лог с результатами теста
+
+pytest -v --tb=line --reruns 1 --browser_name=chrome test_rerun.py
+
+# проверка пристуствия кнопки
+button = browser.find_element_by_css_selector('.btn.btn-add-to-basket')
+assert button.get_attribute('type') == 'submit'
+assert button.is_displayed() is True, "Должна быть кнопка добавления в корзину" 
+assert browser.find_element_by_css_selector('.btn-add-to-basket'), 'Кнопка не найдена'
+
 1.6
 
 from selenium import webdriver
@@ -133,3 +153,19 @@ price = WebDriverWait(browser, 12).until(
         )
 
 
+
+3
+
+# Чтобы указать язык браузера с помощью WebDriver, используйте класс Options и метод add_experimental_option, как указано в примере ниже:
+
+from selenium.webdriver.chrome.options import Options
+
+options = Options()
+options.add_experimental_option('prefs', {'intl.accept_languages': user_language})
+browser = webdriver.Chrome(options=options)
+
+# Для Firefox объявление нужного языка будет выглядеть немного иначе:
+
+fp = webdriver.FirefoxProfile()
+fp.set_preference("intl.accept_languages", user_language)
+browser = webdriver.Firefox(firefox_profile=fp)
